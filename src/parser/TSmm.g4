@@ -16,7 +16,7 @@ INT_CONSTANT: [1-9]DIGIT*
 
 // Patrón para los comentario de una sola linea y dos
 COMMENTS: ('/*' .*? '*/'
-         | '//' .*? '\n')
+         | '//' ~[\r\n]*)
          -> skip
          ;
 

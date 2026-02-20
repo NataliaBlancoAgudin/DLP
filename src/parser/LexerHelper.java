@@ -24,14 +24,23 @@ public class LexerHelper {
 		return -1;
 	}
 
-	public static double lexemeToChar(String str) {
-		try {
-			return Character.toLowerCase(str.charAt(0));
+	public static char lexemeToChar(String str) {
+		if(str.equals("'\\n'")){
+			return '\n';
 		}
-		catch(NumberFormatException e) {
-			System.out.println(e);
+		else if(str.equals("'\\t'")){
+			return '\t';
 		}
-		return -1;
+		else if(str.charAt(1) == '\\'){
+			try {
+				int ascii = Integer.parseInt(str.substring(2, str.length() - 1));
+				return (char) ascii;
+			}
+			catch(NumberFormatException e) {
+				System.out.println(e);
+			}
+		}
+		return str.charAt(1);
 	}
 
 }
