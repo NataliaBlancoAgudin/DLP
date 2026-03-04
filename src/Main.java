@@ -1,6 +1,15 @@
+import ast.ASTNode;
+import ast.expressions.Expression;
+import ast.statements.Statement;
 import parser.*;
 
 import org.antlr.v4.runtime.*;
+
+import ast.Program;
+import introspector.model.IntrospectorModel;
+import introspector.view.IntrospectorView;
+
+import java.util.List;
 
 public class Main {
 	
@@ -17,6 +26,12 @@ public class Main {
 		// create a parser that feeds off the tokens buffer
 		CommonTokenStream tokens = new CommonTokenStream(lexer); 
 		TSmmParser parser = new TSmmParser(tokens);
-		parser.program();		
+		Program ast = parser.program().ast;
+//		Expression ast = parser.expression().ast;
+//		List<Statement> ast = parser.statement().ast;
+		
+		// * The AST is shown
+		IntrospectorModel model=new IntrospectorModel("Program", ast);
+		new IntrospectorView("Introspector", model);
 	}
 }

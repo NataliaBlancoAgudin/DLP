@@ -15,4 +15,6 @@ public class Program implements ASTNode{
     public List<Definition> getDefinitionList() {
         return definitionList;
     }
+
+    // se puede añadir un constructor sin parametros y con un metodo que sea addDefintion
 }

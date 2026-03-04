@@ -2,7 +2,15 @@ package ast.expressions;
 
 public class IntLiteral extends AbstractExpression {
 
-    public IntLiteral(int line, int column) {
+    int value;
+
+    public IntLiteral(int value, int line, int column) {
         super(line, column);
+        this.value = value;
     }
+
+    public int getValue() {
+        return value;
+    }
+
 }

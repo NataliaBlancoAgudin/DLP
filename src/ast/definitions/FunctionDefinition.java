@@ -5,10 +5,10 @@ import ast.types.Type;
 
 import java.util.List;
 
-public class FunctionDefintion extends AbstractDefinition{
+public class FunctionDefinition extends AbstractDefinition{
     List<Statement> statements;
 
-    public FunctionDefintion(String name, Type type, List<Statement> statements, int line, int column) {
+    public FunctionDefinition(String name, Type type, List<Statement> statements, int line, int column) {
         super(name, type, line, column);
         this.statements = statements;
     }

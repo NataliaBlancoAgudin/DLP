@@ -4,7 +4,7 @@ import ast.statements.Statement;
 
 import java.util.List;
 
-public class Invocation extends AbstractExpression implements Statement {
+public class Invocation extends AbstractExpression implements Statement, Expression {
 
     List<Expression> args;
     Variable name;

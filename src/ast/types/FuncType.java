@@ -10,6 +10,11 @@ public class FuncType implements Type {
     Type returnType;
     List<VarDefinition> params;
 
+    public FuncType(Type returnType, List<VarDefinition> params) {
+        this.returnType = returnType;
+        this.params = params;
+    }
+
     public Type getReturnType() {
         return returnType;
     }
