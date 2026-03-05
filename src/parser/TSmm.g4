@@ -186,7 +186,7 @@ type returns [Type ast] locals [List<RecordField> recordF = new ArrayList<>()]:
                 LexerHelper.lexemeToInt($INT_CONSTANT.text),
                 $t1.ast);
         }
-     | '[' (r1 = recordField {$recordF.add($r1.ast);})+ ']'
+     | '[' (r1 = recordField {$recordF.add($r1.ast);})+ ']' {$ast = new RecordType($recordF);}
      ;
 
 // Ponemos en distintas reglas el simple y el complex para
