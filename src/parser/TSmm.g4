@@ -180,7 +180,7 @@ body returns [List<Statement> ast=new ArrayList<Statement>()]:
 
 // Tipos puede ser tipo simple o tipos compuestos (arrays y records)
 type returns [Type ast] locals [List<RecordField> recordF = new ArrayList<>()]:
-    simple_type
+    s1=simple_type {$ast=$s1.ast;}
      | '[' INT_CONSTANT ']' t1=type
         {$ast = new ArrayType(
                 LexerHelper.lexemeToInt($INT_CONSTANT.text),
@@ -192,9 +192,9 @@ type returns [Type ast] locals [List<RecordField> recordF = new ArrayList<>()]:
 // Ponemos en distintas reglas el simple y el complex para
 // que no podamos hacer cosas como n as [19]int
 simple_type returns [Type ast]:
-            'int' {$ast = new IntType();}
-            | 'number' {$ast = new NumberType();}
-            | 'char' {$ast = new CharType();}
+            'int' {$ast = IntType.getInstance();}
+            | 'number' {$ast = NumberType.getInstance();}
+            | 'char' {$ast = CharType.getInstance();}
             ;
 
 // Tipo RecordFiled
@@ -216,7 +216,7 @@ functionDefinition returns [FunctionDefinition ast]
             'function'
             id1=ID
             '(' (p1=params {$prms=$p1.ast;})? ')' ':'
-            ('void' {$returnType = new VoidType();}
+            ('void' {$returnType = VoidType.getInstance();}
                 | st=simple_type {$returnType = $st.ast;})
             '{' b1=bodyFunction '}'
             {
@@ -292,7 +292,7 @@ mainDefinition returns [FunctionDefinition ast]:
                 'function' m='main' '(' ')' ':' 'void' '{' b1=bodyFunction '}'
                 {
                     List<VarDefinition> varDef = new ArrayList<VarDefinition>();
-                    FuncType type = new FuncType(new VoidType(), varDef);
+                    FuncType type = new FuncType(VoidType.getInstance(), varDef);
                     $ast = new FunctionDefinition(
                                 $m.text,
                                 type,
