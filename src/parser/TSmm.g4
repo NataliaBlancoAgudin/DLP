@@ -64,7 +64,7 @@ expression returns [Expression ast] locals [List<Expression> exps = new ArrayLis
                 }
            // UnaryMinus
            | '-' e1=expression
-                {$ast = new UnaryNot(
+                {$ast = new UnaryMinus(
                         $e1.ast,
                         $e1.ast.getLine(),
                         $e1.ast.getColumn());
@@ -186,7 +186,7 @@ type returns [Type ast] locals [List<RecordField> recordF = new ArrayList<>()]:
                 LexerHelper.lexemeToInt($INT_CONSTANT.text),
                 $t1.ast);
         }
-     | '[' (r1 = recordField {$recordF.add($r1.ast);})+ ']' {$ast = new RecordType($recordF);}
+     | '[' (r1 = recordField {$recordF.addAll($r1.ast);})+ ']' {$ast = new RecordType($recordF);}
      ;
 
 // Ponemos en distintas reglas el simple y el complex para
@@ -198,11 +198,15 @@ simple_type returns [Type ast]:
             ;
 
 // Tipo RecordFiled
-recordField returns [RecordField ast]:
-            'let' ID ':' t1=type ';'
-            {$ast = new RecordField($t1.ast, $ID.text);}
+recordField returns [List<RecordField> ast = new ArrayList<RecordField>()]:
+            'let' i1=ids ':' t1=type ';'
+            {
+                for (Variable v:$i1.ast) {
+                    RecordField record = new RecordField($t1.ast,v.getName());
+                    $ast.add(record);
+                }
+            }
             ;
-
 // Definition
 definition returns [List<Definition> ast = new ArrayList<Definition>()]:
             v1=varDefinition {$ast.addAll($v1.ast);}

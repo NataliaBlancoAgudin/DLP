@@ -1,4 +1,4 @@
-// Generated from C:/Users/nati6/OneDrive/Escritorio/Informatica/4 Curso/Segundo Semestre/DLP/DLP-PL/Lab02/AST/src/parser/TSmm.g4 by ANTLR 4.13.2
+// Generated from C:/Users/UO295340/Desktop/BlancoAgudinNatalia-Lab05/AST/src/parser/TSmm.g4 by ANTLR 4.13.2
 package parser;
 
 import ast.definitions.*;
