@@ -1,6 +1,7 @@
 package ast.types;
 
 import ast.Locatable;
+import errorhandler.ErrorHandler;
 
 public class ErrorType implements Type {
     private String casuse;
@@ -9,6 +10,7 @@ public class ErrorType implements Type {
     public ErrorType(String cause, Locatable locatable){
         this.casuse = cause;
         this.locatable = locatable;
+        ErrorHandler.getInstance().addError(this);
     }
 
     public String getCasuse(){

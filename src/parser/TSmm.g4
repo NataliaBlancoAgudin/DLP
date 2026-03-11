@@ -186,7 +186,27 @@ type returns [Type ast] locals [List<RecordField> recordF = new ArrayList<>()]:
                 LexerHelper.lexemeToInt($INT_CONSTANT.text),
                 $t1.ast);
         }
-     | '[' (r1 = recordField {$recordF.addAll($r1.ast);})+ ']' {$ast = new RecordType($recordF);}
+     | '[' (r1 = recordField
+            {
+                for(RecordField rf:$r1.ast) {
+                    boolean isDuplicate = false;
+
+                    for(RecordField r:$recordF) {
+                        if(r.getName().equals(rf.getName())){
+                            isDuplicate = true;
+                            break;
+                        }
+                    }
+
+                    if(isDuplicate){
+                        ErrorType errorType = new ErrorType("Error en el campo: " + rf.getName() + " del RecordField porque ya está declarado.", rf);
+                    }
+                    else {
+                        $recordF.add(rf);
+                    }
+                }
+            })+
+       ']' {$ast = new RecordType($recordF);}
      ;
 
 // Ponemos en distintas reglas el simple y el complex para
@@ -202,7 +222,7 @@ recordField returns [List<RecordField> ast = new ArrayList<RecordField>()]:
             'let' i1=ids ':' t1=type ';'
             {
                 for (Variable v:$i1.ast) {
-                    RecordField record = new RecordField($t1.ast,v.getName());
+                    RecordField record = new RecordField($t1.ast,v.getName(), v.getLine(), v.getColumn());
                     $ast.add(record);
                 }
             }

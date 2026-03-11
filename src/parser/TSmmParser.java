@@ -1,4 +1,4 @@
-// Generated from C:/Users/UO295340/Desktop/BlancoAgudinNatalia-Lab05/AST/src/parser/TSmm.g4 by ANTLR 4.13.2
+// Generated from C:/Users/nati6/OneDrive/Escritorio/Informatica/4 Curso/Segundo Semestre/DLP/DLP-PL/Lab02/AST/src/parser/TSmm.g4 by ANTLR 4.13.2
 package parser;
 
 import ast.definitions.*;
@@ -944,7 +944,25 @@ public class TSmmParser extends Parser {
 					{
 					setState(228);
 					((TypeContext)_localctx).r1 = recordField();
-					_localctx.recordF.addAll(((TypeContext)_localctx).r1.ast);
+
+					                for(RecordField rf:((TypeContext)_localctx).r1.ast) {
+					                    boolean isDuplicate = false;
+
+					                    for(RecordField r:_localctx.recordF) {
+					                        if(r.getName().equals(rf.getName())){
+					                            isDuplicate = true;
+					                            break;
+					                        }
+					                    }
+
+					                    if(isDuplicate){
+					                        ErrorType errorType = new ErrorType("Error en el campo: " + rf.getName() + " del RecordField porque ya está declarado.", rf);
+					                    }
+					                    else {
+					                        _localctx.recordF.add(rf);
+					                    }
+					                }
+					            
 					}
 					}
 					setState(233); 
@@ -1059,7 +1077,7 @@ public class TSmmParser extends Parser {
 			match(T__22);
 
 			                for (Variable v:((RecordFieldContext)_localctx).i1.ast) {
-			                    RecordField record = new RecordField(((RecordFieldContext)_localctx).t1.ast,v.getName());
+			                    RecordField record = new RecordField(((RecordFieldContext)_localctx).t1.ast,v.getName(), v.getLine(), v.getColumn());
 			                    _localctx.ast.add(record);
 			                }
 			            
