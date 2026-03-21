@@ -1,6 +1,8 @@
 package ast;
 
+import visitor.Visitor;
+
 // Interfaz `ASTNode`
 public interface ASTNode {
-    // En el futuro aquí se pondrá el patrón Visitor
+    <PT, RT> RT accept(Visitor<PT,RT> v, PT param);
 }

@@ -2,19 +2,20 @@ package ast.types;
 
 import ast.Locatable;
 import errorhandler.ErrorHandler;
+import visitor.Visitor;
 
 public class ErrorType implements Type {
-    private String casuse;
-    private Locatable locatable;
+    private final String cause;
+    private final Locatable locatable;
 
     public ErrorType(String cause, Locatable locatable){
-        this.casuse = cause;
+        this.cause = cause;
         this.locatable = locatable;
         ErrorHandler.getInstance().addError(this);
     }
 
-    public String getCasuse(){
-        return this.casuse;
+    public String getCause(){
+        return this.cause;
     }
 
     public Locatable getLocatable(){
@@ -24,9 +25,14 @@ public class ErrorType implements Type {
     @Override
     public String toString() {
         return "ErrorType {" +
-                "casuse='" + casuse + '\'' +
+                "casuse='" + this.getCause() + '\'' +
                 ", fila=" + locatable.getLine()+
                 ", columna= " + locatable.getColumn()+
                 '}';
+    }
+
+    @Override
+    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+        return v.visit(this, param);
     }
 }

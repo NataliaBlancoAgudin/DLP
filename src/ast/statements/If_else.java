@@ -2,7 +2,9 @@ package ast.statements;
 
 import ast.AbstractLocatable;
 import ast.expressions.Expression;
+import visitor.Visitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class If_else extends AbstractLocatable implements Statement{
@@ -13,8 +15,8 @@ public class If_else extends AbstractLocatable implements Statement{
 
     public If_else(List<Statement> if_body, List<Statement> else_body,Expression condition, int line, int column) {
         super(line, column);
-        this.if_body = if_body;
-        this.else_body = else_body;
+        this.if_body = new ArrayList<>(if_body);
+        this.else_body = new ArrayList<>(else_body);
         this.condition = condition;
     }
 
@@ -28,5 +30,10 @@ public class If_else extends AbstractLocatable implements Statement{
 
     public Expression getCondition() {
         return condition;
+    }
+
+    @Override
+    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+        return v.visit(this, param);
     }
 }

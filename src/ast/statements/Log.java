@@ -2,6 +2,7 @@ package ast.statements;
 
 import ast.AbstractLocatable;
 import ast.expressions.Expression;
+import visitor.Visitor;
 
 public class Log extends AbstractLocatable implements Statement {
 
@@ -14,5 +15,10 @@ public class Log extends AbstractLocatable implements Statement {
 
     public Expression getExpression() {
         return expression;
+    }
+
+    @Override
+    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+        return v.visit(this, param);
     }
 }

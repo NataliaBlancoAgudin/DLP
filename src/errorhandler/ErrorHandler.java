@@ -1,7 +1,6 @@
 package errorhandler;
 
 import ast.types.ErrorType;
-import ast.types.NumberType;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ public class ErrorHandler {
     public boolean anyError() {
         return !errorTypeList.isEmpty();
     }
-
 
     public void showErrors(PrintStream err) {
         for(ErrorType error: errorTypeList){

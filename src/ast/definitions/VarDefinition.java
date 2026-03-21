@@ -2,10 +2,16 @@ package ast.definitions;
 
 import ast.statements.Statement;
 import ast.types.Type;
+import visitor.Visitor;
 
 public class VarDefinition extends AbstractDefinition implements Statement {
 
     public VarDefinition(String name, Type type, int line, int column) {
         super(name, type, line, column);
+    }
+
+    @Override
+    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+        return v.visit(this, param);
     }
 }
