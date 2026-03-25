@@ -6,7 +6,6 @@ import ast.types.*;
 import visitor.AbstractVisitor;
 
 public class LValueVisitor extends AbstractVisitor<Void, Void> {
-
     // Expressions ----------------------------------------------------------------------------------------------
     @Override
     public Void visit(ArithmeticOperation a, Void param) {

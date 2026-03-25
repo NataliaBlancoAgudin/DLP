@@ -6,6 +6,7 @@ import ast.types.Type;
 public abstract class AbstractDefinition extends AbstractLocatable implements Definition {
     String name;
     Type type;
+    int scope;
 
     public AbstractDefinition(String name, Type type, int line, int column) {
         super(line, column);
@@ -21,5 +22,15 @@ public abstract class AbstractDefinition extends AbstractLocatable implements De
     @Override
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public int getScope() {
+        return scope;
+    }
+
+    @Override
+    public void setScope(int scope) {
+        this.scope = scope;
     }
 }

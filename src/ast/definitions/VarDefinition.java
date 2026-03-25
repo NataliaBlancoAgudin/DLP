@@ -10,8 +10,14 @@ public class VarDefinition extends AbstractDefinition implements Statement {
         super(name, type, line, column);
     }
 
+    public VarDefinition(int line, int column, String name, Type type) {
+        super(name, type, line, column);
+    }
+
     @Override
     public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
         return v.visit(this, param);
     }
+
+
 }

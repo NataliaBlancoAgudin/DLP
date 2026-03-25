@@ -12,10 +12,10 @@ public abstract class AbstractVisitor<PT,RT> implements Visitor<PT,RT> {
     // Definitions ---------------------------------------------------------------------------------------------
     @Override
     public RT visit(FunctionDefinition f, PT param) {
+        f.getType().accept(this, param);
         for(Statement st : f.getStatements()){
             st.accept(this, param);
         }
-        f.getType().accept(this, param);
         return null;
     }
 
@@ -71,6 +71,7 @@ public abstract class AbstractVisitor<PT,RT> implements Visitor<PT,RT> {
 
     @Override
     public RT visit(Invocation invocation, PT param) {
+        invocation.getName().accept(this, param);
         for(Expression exp:invocation.getArgs()){
             exp.accept(this, param);
         }
@@ -174,6 +175,7 @@ public abstract class AbstractVisitor<PT,RT> implements Visitor<PT,RT> {
     public RT visit(FuncType f, PT param) {
         f.getReturnType().accept(this, param);
         for(VarDefinition v: f.getParams()){
+            v.accept(this, param);
             v.getType().accept(this, param);
         }
         return null;
