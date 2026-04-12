@@ -7,7 +7,7 @@ import ast.expressions.*;
 import ast.statements.*;
 import ast.types.*;
 
-public interface Visitor<PT,RT> {
+public interface Visitor<RT,PT> {
     // Definitions
     RT visit(FunctionDefinition f, PT param);
     RT visit(VarDefinition v, PT param);

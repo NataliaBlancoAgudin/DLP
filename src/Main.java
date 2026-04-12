@@ -1,3 +1,4 @@
+import ast.types.Type;
 import org.antlr.v4.runtime.*;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
@@ -30,11 +31,13 @@ public class Main {
 		// El typeChecking va DESPUES del identificationVisitor
 		Visitor<Void, Void> lValueVisitor = new LValueVisitor();
 		Visitor<Void, Void> identificationVisitor = new IdentificationVisitor();
+		Visitor<Void, Type> typeCheckingVisitor = new TypeCheckingVisitor();
 
 		//lValueVisitor.visit(ast);	  //Incorrect use of the Visitor pattern, Fix it!
 
 		ast.accept(lValueVisitor, null);
 		ast.accept(identificationVisitor, null);
+		ast.accept(typeCheckingVisitor, null);
 
 		// * Check errors
 		if(ErrorHandler.getInstance().anyError()){

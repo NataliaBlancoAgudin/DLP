@@ -4,5 +4,5 @@ import visitor.Visitor;
 
 // Interfaz `ASTNode`
 public interface ASTNode {
-    <PT, RT> RT accept(Visitor<PT,RT> v, PT param);
+    <RT, PT> RT accept(Visitor<RT,PT> v, PT param);
 }

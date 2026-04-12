@@ -59,7 +59,7 @@ function show(): void{
 
 // Record
 let date: [
-	let day, month, year:int;	
+	let day, month, year:int;
 	let array: [10][6]char;
 	let r:[ let c: char;];
 ];

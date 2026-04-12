@@ -1,10 +1,11 @@
 package ast.types;
 
+import ast.Locatable;
 import visitor.Visitor;
 
 import java.util.List;
 
-public class RecordType implements Type {
+public class RecordType extends AbstractType {
     List<RecordField> fieldList;
 
     public RecordType(List<RecordField> fieldList) {
@@ -16,7 +17,17 @@ public class RecordType implements Type {
     }
 
     @Override
-    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+    public <RT, PT> RT accept(Visitor<RT, PT> v, PT param){
         return v.visit(this, param);
+    }
+
+    @Override
+    public Type dot(String name, Locatable l){
+        for(RecordField field : fieldList){
+            if(field.getName().equals(name)){
+                return field.getTargetype();
+            }
+        }
+        return new ErrorType("El Record no tiene ningún campo con el nombre: " + name, l);
     }
 }

@@ -1,11 +1,12 @@
 package ast.types;
 
+import ast.Locatable;
 import ast.definitions.VarDefinition;
 import visitor.Visitor;
 
 import java.util.List;
 
-public class FuncType implements Type {
+public class FuncType extends AbstractType {
     // Atributo de la clase `FuncType`: tiene que guardar
     // un `Type` de retorno y una lista de `VarDefintion`
     Type returnType;
@@ -25,7 +26,18 @@ public class FuncType implements Type {
     }
 
     @Override
-    public <PT, RT> RT accept(Visitor<PT, RT> v, PT param) {
+    public <RT, PT> RT accept(Visitor<RT, PT> v, PT param) {
         return v.visit(this, param);
+    }
+
+    @Override
+    public Type parenthesis(List<Type> e, Locatable l){
+        if(e.size() != params.size()){
+            return super.parenthesis(e, l);
+        }
+        for(int i = 0; i < params.size(); i++){
+            e.get(i).mustPromotesTo(params.get(i).getType(), l);
+        }
+        return returnType;
     }
 }
