@@ -19,6 +19,11 @@ public class IntType extends AbstractType {
     }
 
     @Override
+    public int numberOfBytes() {
+        return 2;
+    }
+
+    @Override
     public void mustBeLogical(Locatable l){
         // No se hace nada, porque IntType si que se puede usar como condicion
         // En AbstractType se lanza un ErrorType, pero en este caso no se haría

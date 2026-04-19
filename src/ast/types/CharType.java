@@ -61,6 +61,11 @@ public class CharType extends AbstractType {
     }
 
     @Override
+    public int numberOfBytes() {
+        return 1;
+    }
+
+    @Override
     public void mustBeLogical(Locatable l){
         // No se hace nada, porque CharType si que se puede usar como condicion
         // En AbstractType se lanza un ErrorType, pero en este caso no se haría

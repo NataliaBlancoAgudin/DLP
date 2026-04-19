@@ -19,6 +19,11 @@ public class NumberType extends AbstractType {
     }
 
     @Override
+    public int numberOfBytes() {
+        return 4;
+    }
+
+    @Override
     public Type arithmetic(Type other, Locatable l){
         // number + number || number + int || number + char => number
         if(other == this || other == IntType.getInstance() || other == CharType.getInstance()){

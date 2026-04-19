@@ -1,0 +1,51 @@
+G:
+    (1) IntLiteral:             expr        -> INT_CONSTANT
+    (2) CharLiteral:            expr        -> CHAR_CONSTANT
+    (3) RealLiteral:            expr        -> REAL_CONSTANT
+    (4) Variable:               expr        -> ID
+    (5) ArithmeticOperation:    expr1       -> expr2 expr3
+    (6) While:                  stmt1       -> expr stmt2*
+    (7) UnaryMinus:             expr1       -> expr2
+    (8) UnaryNot:               expr1       -> expr2
+    (9) LogicOperation:         expr1       -> expr2 expr3
+    (10) ComparationOp:         expr1       -> expr2 expr3
+    (11) Invocation:            expr1       -> ID expr2*
+    (12) ArrayAccess:           expr1       -> expr2 expr3
+    (13) Cast:                  expr1       -> type expr2
+    (14) FieldAccess:           expr1       -> name expr2
+    (15) If_Else:               stmt1       -> stmt2* stmt3* expr
+    (16) Input:                 stmt        -> expr
+    (17) Log:                   stmt        -> expr
+    (18) Return:                stmt        -> expr
+    (19) Assigment:             stmt        -> expr1 expr2
+    (20) FuncDefinition:        def         -> stmt*
+
+A: {expr.type pertenece Type}
+
+R:
+    (1) expr.type = IntType.getInstance();
+    (2) expr.type = CharType.getInstance();
+    (3) expr.type = NumberType.getInstance();
+    (4) expr.type = expr.definition.type;
+    (5) expr1.type = expr2.type.arithmetic(expr3.type, expr1);
+    (6) expr.type.mustBeLogical(stmt1);
+    (7) expr1.type = expr2.type.arithmetic(expr1)
+    (8) expr2.type.mustBeLogical(expr1)
+        expr1.type = IntType.getInstance(expr1)
+    (9) expr2.type.mustBeLogical(expr1)
+        expr3.type.mustBeLogical(expr1)
+        expr1.type = IntType.getInstance(expr1)
+    (10) expr1.type = expr2.type.comparation(expr3.type, expr1)
+    (11) List<Type> argumentsTypes = new ArrayList<Type>();
+    	 for(Expression e : expr2*){
+    	    argumentsTypes.add(e.type);
+    	 }
+    	expr1.type = ID.type.parenthesis(argumentsTypes, expr1)
+    (12) expr1.type = expr2.type.squareBrackets(expr3.type, expr1)
+    (13) expr1.type = expr2.type.canBeCast(type,expr1)
+    (14) expr1.type = expr2.type.dot(name, expr1)
+    (15) expr.type.mustBeLogical(stmt1)
+    (16) expr.type.mustBeBuiltIn(stmt1)
+    (17) expr.type.mustBeBuiltIn(stmt1)
+    (18) expr.type.mustPromoteTo(type, stmt1)
+    (19) expr1.type.mustPromoteTo(expr2.type)

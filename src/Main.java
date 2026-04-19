@@ -1,3 +1,4 @@
+import ast.codegeneration.OffsetVisitor;
 import ast.types.Type;
 import org.antlr.v4.runtime.*;
 import introspector.model.IntrospectorModel;
@@ -32,12 +33,14 @@ public class Main {
 		Visitor<Void, Void> lValueVisitor = new LValueVisitor();
 		Visitor<Void, Void> identificationVisitor = new IdentificationVisitor();
 		Visitor<Void, Type> typeCheckingVisitor = new TypeCheckingVisitor();
+		Visitor<Void, Boolean> offsetVisitor = new OffsetVisitor();
 
 		//lValueVisitor.visit(ast);	  //Incorrect use of the Visitor pattern, Fix it!
 
 		ast.accept(lValueVisitor, null);
 		ast.accept(identificationVisitor, null);
 		ast.accept(typeCheckingVisitor, null);
+		ast.accept(offsetVisitor, null);
 
 		// * Check errors
 		if(ErrorHandler.getInstance().anyError()){

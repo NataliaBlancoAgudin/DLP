@@ -22,6 +22,15 @@ public class RecordType extends AbstractType {
     }
 
     @Override
+    public int numberOfBytes() {
+        int number = 0;
+        for(RecordField field : fieldList){
+            number+=field.getTargetype().numberOfBytes();
+        }
+        return number;
+    }
+
+    @Override
     public Type dot(String name, Locatable l){
         for(RecordField field : fieldList){
             if(field.getName().equals(name)){

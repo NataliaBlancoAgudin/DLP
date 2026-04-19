@@ -6,6 +6,12 @@ import java.util.List;
 public abstract class AbstractType implements Type {
 
     @Override
+    public int numberOfBytes() {
+        // Esto es para los tipo Void, Error, Func
+        throw new UnsupportedOperationException("La definción de una variable no puede ser de tipo " + this);
+    }
+
+    @Override
     public void mustBeLogical(Locatable l){
         new ErrorType("No se puede usar este tipo como condición", l);
     }

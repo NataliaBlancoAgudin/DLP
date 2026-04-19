@@ -26,6 +26,11 @@ public class ArrayType extends AbstractType {
     }
 
     @Override
+    public int numberOfBytes() {
+        return size*of.numberOfBytes();
+    }
+
+    @Override
     public Type squareBrackets(Type other, Locatable l){
         if(other == IntType.getInstance()){
             return of;

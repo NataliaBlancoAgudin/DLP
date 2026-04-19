@@ -2,13 +2,13 @@ package ast.types;
 
 import ast.ASTNode;
 import ast.Locatable;
-import ast.expressions.*;
-import ast.statements.Input;
 
 import java.util.List;
 
 // Interfaz `Type`: hereda de ASTNode porque es un nodo más
 public interface Type extends ASTNode {
+    // Numero de bytes que tienen los tipos
+    int numberOfBytes();
 
     // Comprueba que puede ser usado en condiciones (if/while)
     void mustBeLogical(Locatable l);
