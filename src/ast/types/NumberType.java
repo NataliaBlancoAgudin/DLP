@@ -67,4 +67,14 @@ public class NumberType extends AbstractType {
     public void mustBeBuiltIn(Locatable locatable) {
         // No se haria nada
     }
+
+    @Override
+    public char suffix(){
+        return 'f';
+    }
+
+    @Override
+    public String toString(){
+        return "real";
+    }
 }

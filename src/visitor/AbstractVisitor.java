@@ -71,7 +71,7 @@ public abstract class AbstractVisitor<RT,PT> implements Visitor<RT,PT> {
 
     @Override
     public RT visit(Invocation invocation, PT param) {
-        invocation.getName().accept(this, param);
+        invocation.getVariable().accept(this, param);
         for(Expression exp:invocation.getArgs()){
             exp.accept(this, param);
         }

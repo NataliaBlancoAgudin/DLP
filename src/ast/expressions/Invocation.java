@@ -9,20 +9,20 @@ import java.util.List;
 public class Invocation extends AbstractExpression implements Statement, Expression {
 
     List<Expression> args;
-    Variable name;
+    Variable variable;
 
-    public Invocation(List<Expression> args, Variable name, int line, int column) {
+    public Invocation(List<Expression> args, Variable variable, int line, int column) {
         super(line, column);
         this.args = new ArrayList<>(args);
-        this.name = name;
+        this.variable = variable;
     }
 
     public List<Expression> getArgs() {
         return args;
     }
 
-    public Variable getName() {
-        return name;
+    public Variable getVariable() {
+        return variable;
     }
 
     @Override

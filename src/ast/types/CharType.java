@@ -70,4 +70,14 @@ public class CharType extends AbstractType {
         // No se hace nada, porque CharType si que se puede usar como condicion
         // En AbstractType se lanza un ErrorType, pero en este caso no se haría
     }
+
+    @Override
+    public char suffix(){
+        return 'b';
+    }
+
+    @Override
+    public String toString(){
+        return "char";
+    }
 }

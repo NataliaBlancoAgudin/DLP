@@ -89,7 +89,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Void, Type> {
         for(Expression e : i.getArgs()){
             argumentsTypes.add(e.getType());
         }
-        i.setType(i.getName().getDefinition().getType().parenthesis(argumentsTypes, i));
+        i.setType(i.getVariable().getDefinition().getType().parenthesis(argumentsTypes, i));
 
         return null;
     }

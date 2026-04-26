@@ -40,4 +40,9 @@ public class FuncType extends AbstractType {
         }
         return returnType;
     }
+
+    @Override
+    public String toString() {
+        return "FunctionType";
+    }
 }

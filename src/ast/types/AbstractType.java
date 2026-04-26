@@ -4,6 +4,11 @@ import ast.Locatable;
 import java.util.List;
 
 public abstract class AbstractType implements Type {
+    // Por defecto devuelvo el caracter nulo
+    @Override
+    public char suffix() {
+        return '\0';
+    }
 
     @Override
     public int numberOfBytes() {

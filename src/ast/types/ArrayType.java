@@ -37,4 +37,16 @@ public class ArrayType extends AbstractType {
         }
         return super.squareBrackets(other, l);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("ArrayType[");
+        if(size > 0){
+            str.append("of:" + of.toString() + ",size:"+size+"]");
+            return str.toString();
+        } else{
+            return "ArrayType";
+        }
+    }
 }

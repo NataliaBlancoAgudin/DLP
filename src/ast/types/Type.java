@@ -7,6 +7,9 @@ import java.util.List;
 
 // Interfaz `Type`: hereda de ASTNode porque es un nodo más
 public interface Type extends ASTNode {
+    // Sufijo para saber el tipo que tenemos que hacer en las instrucciones de codigo maquina
+    char suffix();
+
     // Numero de bytes que tienen los tipos
     int numberOfBytes();
 

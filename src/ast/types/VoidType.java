@@ -25,4 +25,9 @@ public class VoidType extends AbstractType {
         }
         super.mustPromotesTo(t, l);
     }
+
+    @Override
+    public String toString() {
+        return "VoidType";
+    }
 }
