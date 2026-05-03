@@ -48,6 +48,7 @@ public class AddressCGVisitor extends AbstractCGVisitor<Void, Void> {
      * address[[ArrayAccess: expr1 -> exp2 expr3]]()=
      *      address[[expr2]]()
      *      value[[expr3]]()
+     *      cg.converTo(expr3.type, IntType.instance) -> esto es para que funcione v['a']
      *      <pushi> expr1.type.numberOfBytes
      *      <muli>
      *      <addi>

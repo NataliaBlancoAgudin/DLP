@@ -4,11 +4,9 @@ import ast.Program;
 import ast.definitions.Definition;
 import ast.definitions.FunctionDefinition;
 import ast.definitions.VarDefinition;
-import ast.statements.Assigment;
-import ast.statements.Input;
-import ast.statements.Log;
-import ast.statements.Statement;
+import ast.statements.*;
 import ast.types.FuncType;
+import ast.types.IntType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,6 +154,74 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, Void> {
     @Override
     public Void visit(VarDefinition v, Void param){
         getCodeGenerator().comment(v.getType() + " " + v.getName() + "(offset " + v.getOffset() + ")");
+        return null;
+    }
+
+    /**
+     *
+     * execute[[While: stmt1 -> expr stmt2*]]()=
+     *         String cond = cg.getLabel()
+     *         String end = cg.getLabel()
+     *         cond <:>
+     *         value[[expr]]()
+     *         cg.convertTo(expr.type, IntType.instance)
+     *         <jz> end
+     *         stmt2*.forEach(s -> execute[[s]]())
+     *         <jmp> cond
+     *         end <:>
+     */
+    @Override
+    public Void visit(While w, Void param){
+        getCodeGenerator().commentLine(w.getLine());
+        getCodeGenerator().comment("While");
+
+        String cond = getCodeGenerator().getLabel();
+        String end = getCodeGenerator().getLabel();
+        getCodeGenerator().insertLabel(cond);
+        w.getCondition().accept(valueCGVisitor, null);
+        getCodeGenerator().convertTo(w.getCondition().getType(), IntType.getInstance());
+        getCodeGenerator().jz(end);
+        for(Statement st: w.getBody()){
+            getCodeGenerator().comment("While body");
+            st.accept(this, null);
+        }
+        getCodeGenerator().jmp(cond);
+        getCodeGenerator().insertLabel(end);
+        return null;
+    }
+
+    /**
+     * execute[[If_else: stmt1 -> expr stmt2* stmt3*]]()=
+     *         String else = cg.getLabel()
+     *         String end = cg.getLabel()
+     *         value[[expr]]()
+     *         cg.convertTo(expr.type, IntType.instance)
+     *         <jz> else
+     *         stmt2*.forEach(s -> execute[[s]]())
+     *         <jmp> end
+     *         else <:>
+     *         stmt3*.forEach(s -> execute[[s]]())
+     *         end <:>
+     */
+    @Override
+    public Void visit(If_else i, Void param){
+        getCodeGenerator().commentLine(i.getLine());
+        getCodeGenerator().comment("If");
+
+        String elseC = getCodeGenerator().getLabel();
+        String end = getCodeGenerator().getLabel();
+        i.getCondition().accept(valueCGVisitor, null);
+        getCodeGenerator().convertTo(i.getCondition().getType(), IntType.getInstance());
+        getCodeGenerator().jz(elseC);
+        for(Statement st : i.getIf_body()){
+            st.accept(this, null);
+        }
+        getCodeGenerator().jmp(end);
+        getCodeGenerator().insertLabel(elseC);
+        for(Statement st : i.getElse_body()){
+            st.accept(this, null);
+        }
+        getCodeGenerator().insertLabel(end);
         return null;
     }
 

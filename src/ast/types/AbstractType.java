@@ -7,7 +7,7 @@ public abstract class AbstractType implements Type {
     // Por defecto devuelvo el caracter nulo
     @Override
     public char suffix() {
-        return '\0';
+        throw new UnsupportedOperationException("El tipo " + this + " no tener sufijo.");
     }
 
     @Override

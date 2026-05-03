@@ -49,7 +49,7 @@ public class NumberType extends AbstractType {
 
     @Override
     public void mustPromotesTo(Type t, Locatable l) {
-        if(this == t){
+        if(this == t || t == IntType.getInstance()){
             return;
         }
         super.mustPromotesTo(t, l);

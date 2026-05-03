@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 public class CodeGenerator {
 
     private PrintWriter out;
+    private int contador = 0;
 
     public CodeGenerator(String outputFilename, String sourceFilename){
         try{
@@ -230,9 +231,39 @@ public class CodeGenerator {
         out.flush();
     }
 
+    // Jumps ---------------------------------------------------------------------------------------------------
+    public String getLabel() {
+        return "label" + this.contador++;
+    }
+
+    public void insertLabel(String label) {
+        out.println("\n" + label +":\n");
+        out.flush();
+    }
+
+    public void jmp(String cond) {
+        out.println("\tjmp\t" + cond);
+        out.flush();
+    }
+
+    public void jz(String label) {
+        out.println("\tjz\t" + label);
+        out.flush();
+    }
+
+    public void jnz(String label) {
+        out.println("\tjnz\t" + label);
+        out.flush();
+    }
+
     // Functions  ---------------------------------------------------------------------------------------------------
     public void call(String name) {
         out.println("\tcall\t" + name);
+        out.flush();
+    }
+
+    public void enter(int bytesLocalSum) {
+        out.println("\tenter\t" + bytesLocalSum);
         out.flush();
     }
 
@@ -246,12 +277,18 @@ public class CodeGenerator {
         out.flush();
     }
 
-    // Comments -----------------------------------------------------------------------------------------------------
+    // Debugging info -----------------------------------------------------------------------------------------------
+    public void source(String source) {
+        out.println("\n#source\t" + "\"" + source + "\"\n");
+        out.flush();
+    }
+
     public void commentLine(int line) {
         out.println("\n#line\t" + line);
         out.flush();
     }
 
+    // Comments -----------------------------------------------------------------------------------------------------
     public void printFunction(String name) {
         out.println("\n " + name + ":");
         out.flush();
@@ -259,16 +296,6 @@ public class CodeGenerator {
 
     public void comment(String name) {
         out.println("\t ' * " + name);
-        out.flush();
-    }
-
-    public void enter(int bytesLocalSum) {
-        out.println("\tenter\t" + bytesLocalSum);
-        out.flush();
-    }
-
-    public void source(String source) {
-        out.println("\n#source\t" + "\"" + source + "\"\n");
         out.flush();
     }
 

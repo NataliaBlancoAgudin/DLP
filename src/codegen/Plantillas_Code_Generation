@@ -59,6 +59,31 @@ Equivalen a lo que tenemos en los visitors "ExecuteCGVisitor", "ValueCGVisitor" 
         }
         <ret> 0, definitions.bytesLocalSum, 0
 
+5. While ->
+    execute[[While: stmt1 -> expr stmt2*]]()=
+        String cond = cg.getLabel()
+        String end = cg.getLabel()
+        cond <:>
+        value[[expr]]()
+        cg.convertTo(expr.type, IntType.instance)
+        <jz> end
+        stmt2*.forEach(s -> execute[[s]]())
+        <jmp> cond
+        end <:>
+
+6. If_else ->
+    execute[[If_else: stmt1 -> expr stmt2* stmt3*]]()=
+        String else = cg.getLabel()
+        String end = cg.getLabel()
+        value[[expr]]()
+        cg.convertTo(expr.type, IntType.instance)
+        <jz> else
+        stmt2*.forEach(s -> execute[[s]]())
+        <jmp> end
+        else <:>
+        stmt3*.forEach(s -> execute[[s]]())
+        end <:>
+
 5. Program ->                                                                           ✅
     execute[[Program: program -> def*]]()=
         for(Defintion d:def*){

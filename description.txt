@@ -60,24 +60,25 @@ Conversions                                                                     
 	f2i 	Pops one real number and pushes it as an integer                                    ✅
 	i2b 	Pops one integer and pushes it as a character                                       ✅
 	
-Jumps
-	<id>: 			Defines one label for jumps and invocations (functions).
-	jmp <label>		Jumps (unconditionally) to the label specified as a parameter.
-	jz <label> 		Pops one integer and jumps to the label if the popped integer is zero.
-	jnz <label> 	Pops one integer and jumps to the label if the popped integer is not zero.
+Jumps                                                                                           🆗
 
-Functions
+	<id>: 			Defines one label for jumps and invocations (functions).                    ✅
+	jmp <label>		Jumps (unconditionally) to the label specified as a parameter.              ✅
+	jz <label> 		Pops one integer and jumps to the label if the popped integer is zero.      ✅
+	jnz <label> 	Pops one integer and jumps to the label if the popped integer is not zero.  ✅
 
-	<id>:			Defines a label for jumps and invocations (functions)
+Functions                                                                                       🆗
+
+	<id>:			Defines a label for jumps and invocations (functions)                       ✅
 	call <id> 		Invokes the <id> function                                                   ✅
-	enter <int_constant> 	Allocates <int_constant> bytes on the top of the stack 
+	enter <int_constant> 	Allocates <int_constant> bytes on the top of the stack              ✅
 	ret 			Returns from a function invocation.                                         ✅
 		<int_constant>,		The first constant represents the bytes to return; 
 	    	<int_constant>, 	the second one, the bytes of all the local variables; 
         	<int_constant> 		and the last one, the bytes of all the parameters.
 	halt 			Terminates the program execution                                            ✅
 
-Debugging info
+Debugging info                                                                                  🆗
 
 	#source <string_constant> 	Allows the MAPL IDE to associate assembly code                  ✅
 					to the high-level source program
