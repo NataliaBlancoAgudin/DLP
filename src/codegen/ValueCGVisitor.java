@@ -1,6 +1,7 @@
 package codegen;
 
 import ast.expressions.*;
+import ast.types.FuncType;
 import ast.types.IntType;
 
 public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
@@ -125,14 +126,14 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
      *          value[[expr]]
      *      <call> expr2.name
      */
-    @Override
-    public Void visit(Invocation i, Void param){
-        for(Expression expr: i.getArgs()){
-            expr.accept(this, null);
-        }
-        getCodeGenerator().call(i.getVariable().getName());
-        return null;
-    }
+//    @Override
+//    public Void visit(Invocation i, Void param){
+//        for(Expression expr: i.getArgs()){
+//            expr.accept(this, null);
+//        }
+//        getCodeGenerator().call(i.getVariable().getName());
+//        return null;
+//    }
 
     /**
      * value[[LogicOperation: expr1 -> expr2 expr3]]() =
@@ -189,6 +190,25 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
     public Void visit(UnaryNot u, Void param){
         u.getOperand().accept(this, null);
         getCodeGenerator().not();
+        return null;
+    }
+
+    /**
+     * value[[Invocation: expr1 -> expr2 expr3*]]()=
+     *         for(int i=0; i<expr3*.size(); i++){
+     *             value[[expr3*.get(i)]]
+     *             cg.convertTo(expr3*.get(i).type, expr2.type.parameters.get(i).type
+     *         }
+     *         <call> expr2.name
+     */
+    @Override
+    public Void visit(Invocation invocation, Void param){
+        for(int i=0; i<invocation.getArgs().size(); i++){
+            invocation.getArgs().get(i).accept(this, null);
+            getCodeGenerator().convertTo(invocation.getArgs().get(i).getType(),
+                    ((FuncType)invocation.getVariable().getType()).getParams().get(i).getType());
+        }
+        getCodeGenerator().call(invocation.getVariable().getName());
         return null;
     }
 

@@ -54,10 +54,13 @@ Equivalen a lo que tenemos en los visitors "ExecuteCGVisitor", "ValueCGVisitor" 
         <enter> definitions.bytesLocalSum
         for(Statements st:stmt*){
             if(!(st instaceof VarDefinition)){
-                execute[[st]]
+                execute[[st]](definition)
             }
         }
-        <ret> 0, definitions.bytesLocalSum, 0
+        if(type.returnType == VoidType.instance){
+            <ret> 0, definitions.bytesLocalSum, type.parameters.map(p->p.type.numberOfBytes).sum()
+        }
+
 
 5. While ->
     execute[[While: stmt1 -> expr stmt2*]]()=
@@ -100,6 +103,21 @@ Equivalen a lo que tenemos en los visitors "ExecuteCGVisitor", "ValueCGVisitor" 
                 execute[[d]]()
             }
         }
+
+6. Invocation
+    exectue[[Invocation: stmt -> expr1 expr2*]]()=
+        value[[(Expression) stmt]]()
+        if(expr1.type.returnType != VoidType.instance){
+            <pop> expr1.type.returnType.suffix()
+        }
+
+7. Return
+    execute[[Return: stmt -> expr]](FunctionDefintion fd)=
+        value[[expr]]()
+        cg.convertTo(expr.type, fd.type.returnType)
+        <ret> fd.type.returnType.numberOfBytes
+              fd.bytesLocalSum,
+              fd.types.parameters.map(p->p.type.numberOfBytes).sum()
 
 // PLANTILLAS ADDRESS (lvalue = Variable, ArrayAccess, FieldAccess)                     🆗 ----------------------------
 1. Variable                                                                             ✅
@@ -175,7 +193,7 @@ Equivalen a lo que tenemos en los visitors "ExecuteCGVisitor", "ValueCGVisitor" 
     value[[IntLiteral: expr -> INT_CONSTANT]]()=
         <pushi> expr.value
 
-9. Invocation                                                                           ✅
+9. Invocation  (antiguo)                                                                ✅
     value[[Invocation: expr1 -> expr2 expr3*]]()=
         for(Expression exp: expr3*)
             value[[exp]]
@@ -205,6 +223,14 @@ Equivalen a lo que tenemos en los visitors "ExecuteCGVisitor", "ValueCGVisitor" 
     value[[UnaryNot: expr1 -> expr2]]()=
         value[[expr2]]()
         <not>
+
+14. Invocation (nuevo)
+    value[[Invocation: expr1 -> expr2 expr3*]]()=
+        for(int i=0; i<expr3*.size(); i++){
+            value[[expr3*.get(i)]]
+            cg.convertTo(expr3*.get(i).type, expr2.type.parameters.get(i).type
+        }
+        <call> expr2.name
 
 
 
