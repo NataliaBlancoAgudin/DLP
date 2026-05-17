@@ -12,6 +12,8 @@ R:
             bytesLocalSum += st.type.numberOfBytes;
             st.offset = bytesLocalSum;
         }
+        funcdefinition.bytesLocalSum = bytesLocalSum;
+
     (2) if(vardefinition.scope == 0){
             vardefintion.offset = bytesGlobalSum;
             bytesGlobalSum += vardefinition.type.numberOfBytes;

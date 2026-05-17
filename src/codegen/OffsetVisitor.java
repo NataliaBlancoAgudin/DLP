@@ -39,6 +39,9 @@ public class OffsetVisitor extends AbstractVisitor<Void, Boolean> {
         for(Statement st: f.getStatements()){
             st.accept(this, true);
         }
+
+        // Asignamos el bytesLocalSum de la definicion de funcion
+        f.setBytesLocalSum(bytesLocalSum);
         return null;
     }
 

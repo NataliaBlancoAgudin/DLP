@@ -94,6 +94,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
      *                 execute[[st]]();
      *             }
      *         }
+     *         ------------------------LO HACEMOS EN EL OFFSET ---------------------------------------
      *         if(definitions*.isEmpty()){
      *             defintion.bytesLocalSum = 0;
      *         }
@@ -101,6 +102,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
      *             VarDefinition ultimaVardefintion = definition*.get(definition*.size()-1)
      *             definition.bytesLocalSum = -1 * ultimaVardefinition.offset
      *         }
+     *         --------------------------------------------------------------------------------------
      *
      *         <enter> definitions.bytesLocalSum
      *         for(Statements st:stmt*){
@@ -130,16 +132,6 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
                 definitionList.add((VarDefinition) st);
             }
         }
-
-        // TODO: MOVERLO EN EL OFFSET VISITOR -------------------------------------------------------------------
-        if(definitionList.isEmpty()){
-            f.setBytesLocalSum(0);
-        }
-        else {
-            VarDefinition ultimaDef = definitionList.get(definitionList.size() - 1);
-            f.setBytesLocalSum(-1 * ultimaDef.getOffset());
-        }
-        // ------------------------------------------------------------------------------------------------------
 
         getCodeGenerator().enter(f.getBytesLocalSum());
         for(Statement st: f.getStatements()){
@@ -282,8 +274,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
     @Override
     public Void visit(Invocation invocation, FunctionDefinition param){
         invocation.accept(valueCGVisitor, null);
-        if(((FuncType)invocation.getType()).getReturnType() != VoidType.getInstance()){
-            getCodeGenerator().pop(((FuncType)invocation.getType()).getReturnType());
+        if(((FuncType)invocation.getVariable().getType()).getReturnType() != VoidType.getInstance()){
+            getCodeGenerator().pop(((FuncType)invocation.getVariable().getType()).getReturnType());
         }
         return null;
     }

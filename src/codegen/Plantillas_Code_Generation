@@ -43,13 +43,6 @@ Equivalen a lo que tenemos en los visitors "ExecuteCGVisitor", "ValueCGVisitor" 
                 execute[[st]]();
             }
         }
-        if(definitions*.isEmpty()){
-            defintion.bytesLocalSum = 0;
-        }
-        else {
-            VarDefinition ultimaVardefintion = definition*.get(definition*.size()-1)
-            definition.bytesLocalSum = -1 * ultimaVardefinition.offset
-        }
 
         <enter> definitions.bytesLocalSum
         for(Statements st:stmt*){
