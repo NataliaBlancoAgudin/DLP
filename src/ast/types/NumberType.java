@@ -18,6 +18,12 @@ public class NumberType extends AbstractType {
         return v.visit(this, param);
     }
 
+    // METODOS DEL TYPE -------------------------------------------------------------------------------
+    @Override
+    public char suffix(){
+        return 'f';
+    }
+
     @Override
     public int numberOfBytes() {
         return 4;
@@ -47,9 +53,10 @@ public class NumberType extends AbstractType {
         return super.comparison(other, loc);
     }
 
+    // Solo promociona implicitamente a su mismo tipo
     @Override
     public void mustPromotesTo(Type t, Locatable l) {
-        if(this == t || t == IntType.getInstance()){
+        if(this == t){
             return;
         }
         super.mustPromotesTo(t, l);
@@ -68,10 +75,7 @@ public class NumberType extends AbstractType {
         // No se haria nada
     }
 
-    @Override
-    public char suffix(){
-        return 'f';
-    }
+
 
     @Override
     public String toString(){

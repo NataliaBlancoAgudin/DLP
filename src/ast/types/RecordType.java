@@ -30,6 +30,8 @@ public class RecordType extends AbstractType {
         return v.visit(this, param);
     }
 
+    // METODOS DEL TYPE -------------------------------------------------------------------------------
+
     @Override
     public int numberOfBytes() {
         int number = 0;

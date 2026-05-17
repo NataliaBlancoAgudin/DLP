@@ -18,6 +18,12 @@ public class IntType extends AbstractType {
         return v.visit(this, param);
     }
 
+    // METODOS DEL TYPE -------------------------------------------------------------------------------
+    @Override
+    public char suffix(){
+        return 'i';
+    }
+
     @Override
     public int numberOfBytes() {
         return 2;
@@ -48,6 +54,19 @@ public class IntType extends AbstractType {
     }
 
     @Override
+    public Type logic(Type other, Locatable loc) {
+        if(other == this || other == CharType.getInstance()) {
+            return this;
+        }
+        return super.logic(other, loc);
+    }
+
+    @Override
+    public Type logic(Locatable loc) {
+        return this;
+    }
+
+    @Override
     public Type comparison(Type other, Locatable loc) {
         if(other == this || other == CharType.getInstance() || other == NumberType.getInstance()) {
             return this;
@@ -55,9 +74,10 @@ public class IntType extends AbstractType {
         return super.comparison(other, loc);
     }
 
+    // Solo promociona implicitamente a su mismo tipo, a Number(93 -> 93.0) y Char (93->'a')
     @Override
     public void mustPromotesTo(Type t, Locatable l) {
-        if(this == t || t == NumberType.getInstance()){
+        if(this == t || t == NumberType.getInstance() || t == CharType.getInstance()){
             return;
         }
         super.mustPromotesTo(t, l);
@@ -76,10 +96,7 @@ public class IntType extends AbstractType {
         // No se haria nada
     }
 
-    @Override
-    public char suffix(){
-        return 'i';
-    }
+
 
     @Override
     public String toString(){

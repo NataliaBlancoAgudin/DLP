@@ -18,6 +18,8 @@ public class VoidType extends AbstractType {
         return v.visit(this, param);
     }
 
+    // METODOS DEL TYPE -------------------------------------------------------------------------------
+
     @Override
     public void mustPromotesTo(Type t, Locatable l) {
         if(this == t || t == NumberType.getInstance()){

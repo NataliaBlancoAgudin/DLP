@@ -25,6 +25,7 @@ public class ArrayType extends AbstractType {
         return v.visit(this, param);
     }
 
+    // METODOS DEL TYPE -------------------------------------------------------------------------------
     @Override
     public int numberOfBytes() {
         return size*of.numberOfBytes();

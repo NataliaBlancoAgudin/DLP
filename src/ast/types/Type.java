@@ -16,11 +16,17 @@ public interface Type extends ASTNode {
     // Comprueba que puede ser usado en condiciones (if/while)
     void mustBeLogical(Locatable l);
 
-    // Para las operaciones binarias (+|-|*|/)
+    // Para las operaciones binarias (+|-|*|/|%)
     Type arithmetic(Type other, Locatable l);
 
     // Para el UnaryMinus. Solo pueden los NumberType y los IntType
     Type arithmetic(Locatable l);
+
+    // Para las operaciones logicas binarias (&& | ||). Solo pueden ser los IntType y CharType
+    Type logic(Type other, Locatable l);
+
+    // Para ele UnaryNot. Solo pueden los IntType y CharType
+    Type logic(Locatable l);
 
     // Para las comparaciones >, >=, <, <=, ==, !=
     Type comparison(Type other, Locatable c);

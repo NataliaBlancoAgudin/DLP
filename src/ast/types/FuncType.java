@@ -30,10 +30,11 @@ public class FuncType extends AbstractType {
         return v.visit(this, param);
     }
 
+    // METODOS DEL TYPE -------------------------------------------------------------------------------
     @Override
     public Type parenthesis(List<Type> e, Locatable l){
         if(e.size() != params.size()){
-            return super.parenthesis(e, l);
+            return new ErrorType("Número incorrecto de parámetros (se esperaban " + params.size() + " y fueron " + e.size(), l);
         }
         for(int i = 0; i < params.size(); i++){
             e.get(i).mustPromotesTo(params.get(i).getType(), l);

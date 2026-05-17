@@ -18,6 +18,17 @@ public class CharType extends AbstractType {
         return v.visit(this, param);
     }
 
+    // METODOS DEL TYPE -------------------------------------------------------------------------------
+    @Override
+    public char suffix(){
+        return 'b';
+    }
+
+    @Override
+    public int numberOfBytes() {
+        return 1;
+    }
+
     @Override
     public Type arithmetic(Type other, Locatable l){
         if(other == this || other == IntType.getInstance()){
@@ -32,6 +43,24 @@ public class CharType extends AbstractType {
     }
 
     @Override
+    public Type arithmetic(Locatable l){
+        return IntType.getInstance();
+    }
+
+    @Override
+    public Type logic(Type other, Locatable l) {
+        if(other == this || other == IntType.getInstance()){
+            return IntType.getInstance();
+        }
+        return super.logic(other, l);
+    }
+
+    @Override
+    public Type logic(Locatable loc) {
+        return IntType.getInstance();
+    }
+
+    @Override
     public Type comparison(Type other, Locatable loc) {
         if(other == this || other == IntType.getInstance() || other == NumberType.getInstance()){
             return IntType.getInstance();
@@ -39,6 +68,7 @@ public class CharType extends AbstractType {
         return super.comparison(other, loc);
     }
 
+    // Solo promociona implicitamente a su mismo tipo y a Int ('a'-> 93)
     @Override
     public void mustPromotesTo(Type t, Locatable l){
         if(this == t || t == IntType.getInstance()){
@@ -60,20 +90,12 @@ public class CharType extends AbstractType {
         // Vacío
     }
 
-    @Override
-    public int numberOfBytes() {
-        return 1;
-    }
+
 
     @Override
     public void mustBeLogical(Locatable l){
         // No se hace nada, porque CharType si que se puede usar como condicion
         // En AbstractType se lanza un ErrorType, pero en este caso no se haría
-    }
-
-    @Override
-    public char suffix(){
-        return 'b';
     }
 
     @Override

@@ -39,6 +39,8 @@ public class ErrorType extends AbstractType {
         return v.visit(this, param);
     }
 
+    // METODOS DEL TYPE -------------------------------------------------------------------------------
+
     @Override
     public void mustBeLogical(Locatable locatable) {
         // No se haria nada
@@ -59,6 +61,16 @@ public class ErrorType extends AbstractType {
     }
     @Override
     public Type arithmetic(Locatable loc) {
+        return this;
+    }
+
+    @Override
+    public Type logic(Type other, Locatable locatable) {
+        return this;
+    }
+
+    @Override
+    public Type logic(Locatable loc) {
         return this;
     }
 
