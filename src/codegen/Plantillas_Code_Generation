@@ -36,10 +36,10 @@ Equivalen a lo que tenemos en los visitors "ExecuteCGVisitor", "ValueCGVisitor" 
         for(VarDefinition v: type.params){
             exectue[[v]]();
         }
+
         < ' * Local Variables: >
         for(Statements st: stmt*){
             if(st instanceof VarDefinition){
-                definitions*.add(st);
                 execute[[st]]();
             }
         }
@@ -57,26 +57,33 @@ Equivalen a lo que tenemos en los visitors "ExecuteCGVisitor", "ValueCGVisitor" 
 
 5. While ->
     execute[[While: stmt1 -> expr stmt2*]]()=
+        <#line> expr.line
+        <' * While>
         String cond = cg.getLabel()
         String end = cg.getLabel()
         cond <:>
         value[[expr]]()
         cg.convertTo(expr.type, IntType.instance)
         <jz> end
+        <' * While body>
         stmt2*.forEach(s -> execute[[s]]())
         <jmp> cond
         end <:>
 
 6. If_else ->
     execute[[If_else: stmt1 -> expr stmt2* stmt3*]]()=
+        <#line> expr.line
+        <' * If>
         String else = cg.getLabel()
         String end = cg.getLabel()
         value[[expr]]()
         cg.convertTo(expr.type, IntType.instance)
         <jz> else
+        <' * if body>
         stmt2*.forEach(s -> execute[[s]]())
         <jmp> end
         else <:>
+        <' * else body>
         stmt3*.forEach(s -> execute[[s]]())
         end <:>
 

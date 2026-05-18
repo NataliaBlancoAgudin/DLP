@@ -48,6 +48,12 @@ public class CharType extends AbstractType {
     }
 
     @Override
+    public void mustBeLogical(Locatable l){
+        // No se hace nada, porque CharType si que se puede usar como condicion
+        // En AbstractType se lanza un ErrorType, pero en este caso no se haría
+    }
+
+    @Override
     public Type logic(Type other, Locatable l) {
         if(other == this || other == IntType.getInstance()){
             return IntType.getInstance();
@@ -90,16 +96,8 @@ public class CharType extends AbstractType {
         // Vacío
     }
 
-
-
-    @Override
-    public void mustBeLogical(Locatable l){
-        // No se hace nada, porque CharType si que se puede usar como condicion
-        // En AbstractType se lanza un ErrorType, pero en este caso no se haría
-    }
-
     @Override
     public String toString(){
-        return "char";
+        return "CharType";
     }
 }

@@ -30,12 +30,6 @@ public class IntType extends AbstractType {
     }
 
     @Override
-    public void mustBeLogical(Locatable l){
-        // No se hace nada, porque IntType si que se puede usar como condicion
-        // En AbstractType se lanza un ErrorType, pero en este caso no se haría
-    }
-
-    @Override
     public Type arithmetic(Type other, Locatable loc) {
         // int + int || int + char => int
         if(other == this || other == CharType.getInstance()) {
@@ -51,6 +45,12 @@ public class IntType extends AbstractType {
     @Override
     public Type arithmetic(Locatable loc) {
         return this;
+    }
+
+    @Override
+    public void mustBeLogical(Locatable l){
+        // No se hace nada, porque IntType si que se puede usar como condicion
+        // En AbstractType se lanza un ErrorType, pero en este caso no se haría
     }
 
     @Override
@@ -96,10 +96,8 @@ public class IntType extends AbstractType {
         // No se haria nada
     }
 
-
-
     @Override
     public String toString(){
-        return "int";
+        return "IntType";
     }
 }

@@ -21,7 +21,7 @@ public class CodeGenerator {
             System.err.println("Error opening the file " + outputFilename + ".");
             System.exit(-1);
         }
-        this.source(sourceFilename);        // soruce "input.txt"
+        this.source(sourceFilename);        // source "input.txt"
     }
 
     // Push instructions ---------------------------------------------------------------------------------------------
@@ -63,12 +63,12 @@ public class CodeGenerator {
 
     // Popping and duplicating values on the stack -------------------------------------------------------------------
     public void pop(Type type) {
-        out.println("\tpop\t" + type.suffix());
+        out.println("\tpop" + type.suffix());
         out.flush();
     }
 
     public void dup(Type type) {
-        out.println("\tdup\t" + type.suffix());
+        out.println("\tdup" + type.suffix());
         out.flush();
     }
 

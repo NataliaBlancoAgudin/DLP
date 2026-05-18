@@ -10,8 +10,6 @@ import ast.types.FuncType;
 import ast.types.IntType;
 import ast.types.VoidType;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition> {
 
@@ -87,10 +85,10 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
      *         for(VarDefinition v: type.params){
      *             exectue[[v]]();
      *         }
+     *
      *         < ' * Local Variables: >
      *         for(Statements st: stmt*){
      *             if(st instanceof VarDefinition){
-     *                 definitions*.add(st);
      *                 execute[[st]]();
      *             }
      *         }
@@ -102,8 +100,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
      *             VarDefinition ultimaVardefintion = definition*.get(definition*.size()-1)
      *             definition.bytesLocalSum = -1 * ultimaVardefinition.offset
      *         }
-     *         --------------------------------------------------------------------------------------
-     *
+     *         -------------------------------------------------------------------------------------
      *         <enter> definitions.bytesLocalSum
      *         for(Statements st:stmt*){
      *             if(!(st instaceof VarDefinition)){
@@ -118,18 +115,16 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
     public Void visit(FunctionDefinition f, FunctionDefinition param){
         getCodeGenerator().commentLine(f.getLine());
         getCodeGenerator().printFunction(f.getName());
-        getCodeGenerator().comment("Parameters:");
 
+        getCodeGenerator().comment("Parameters:");
         for(VarDefinition def: ((FuncType) f.getType()).getParams()){
             def.accept(this, null);
         }
 
         getCodeGenerator().comment("Local Variables:");
-        List<VarDefinition> definitionList = new ArrayList<>();
         for(Statement st: f.getStatements()){
             if(st instanceof VarDefinition){
                 st.accept(this, null);
-                definitionList.add((VarDefinition) st);
             }
         }
 
@@ -140,6 +135,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
             }
         }
 
+        // Para las funciones tipo Void
+        //      Esto es porque la plantilla del Return ya nos hace el ret en caso de que no sea Void la funcion
         if(((FuncType) f.getType()).getReturnType() == VoidType.getInstance()){
             getCodeGenerator().ret(0, f.getBytesLocalSum(),
                     ((FuncType)f.getType()).getParams().stream().mapToInt(p -> p.getType().numberOfBytes()).sum());
@@ -163,12 +160,15 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
     /**
      *
      * execute[[While: stmt1 -> expr stmt2*]]()=
+     *         <#line> expr.line
+     *         <' * While>
      *         String cond = cg.getLabel()
      *         String end = cg.getLabel()
      *         cond <:>
      *         value[[expr]]()
      *         cg.convertTo(expr.type, IntType.instance)
      *         <jz> end
+     *         <' * While body>
      *         stmt2*.forEach(s -> execute[[s]]())
      *         <jmp> cond
      *         end <:>
@@ -184,8 +184,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
         w.getCondition().accept(valueCGVisitor, null);
         getCodeGenerator().convertTo(w.getCondition().getType(), IntType.getInstance());
         getCodeGenerator().jz(end);
+        getCodeGenerator().comment("While body");
         for(Statement st: w.getBody()){
-            getCodeGenerator().comment("While body");
             st.accept(this, null);
         }
         getCodeGenerator().jmp(cond);
@@ -195,14 +195,18 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
 
     /**
      * execute[[If_else: stmt1 -> expr stmt2* stmt3*]]()=
+     *         <#line> expr.line
+     *         <' * If>
      *         String else = cg.getLabel()
      *         String end = cg.getLabel()
      *         value[[expr]]()
      *         cg.convertTo(expr.type, IntType.instance)
      *         <jz> else
+     *         <' * if body>
      *         stmt2*.forEach(s -> execute[[s]]())
      *         <jmp> end
      *         else <:>
+     *         <' * else body>
      *         stmt3*.forEach(s -> execute[[s]]())
      *         end <:>
      */
@@ -216,14 +220,17 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
         i.getCondition().accept(valueCGVisitor, null);
         getCodeGenerator().convertTo(i.getCondition().getType(), IntType.getInstance());
         getCodeGenerator().jz(elseC);
+        getCodeGenerator().comment("if body");
         for(Statement st : i.getIf_body()){
             st.accept(this, null);
         }
         getCodeGenerator().jmp(end);
         getCodeGenerator().insertLabel(elseC);
+        getCodeGenerator().comment("else body");
         for(Statement st : i.getElse_body()){
             st.accept(this, null);
         }
+
         getCodeGenerator().insertLabel(end);
         return null;
     }
@@ -238,7 +245,6 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Void, FunctionDefinition
      *         <' Invocation to the main function>
      *         <call main>
      *         <halt>
-     *
      *         for(Definition d:def*){
      *             if(d instanceof FuncDefinition){
      *                 execute[[d]]()

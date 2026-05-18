@@ -1,7 +1,6 @@
 package semantic;
 
 import ast.definitions.FunctionDefinition;
-import ast.definitions.VarDefinition;
 import ast.expressions.*;
 import ast.statements.*;
 import ast.types.*;
@@ -56,9 +55,6 @@ public class TypeCheckingVisitor extends AbstractVisitor<Void, Type> {
     /**
      * // ArithmeticOperation: expr1 -> expr2 (+|-|*|/|%) expr3
      * (5) expr1.type = expr2.type.arithmetic(expr3.type, expr1);
-     * @param a
-     * @param param
-     * @return
      */
     @Override
     public Void visit(ArithmeticOperation a, Type param){
@@ -129,9 +125,6 @@ public class TypeCheckingVisitor extends AbstractVisitor<Void, Type> {
      *     	   argumentsTypes.add(e.type);
      *     	 }
      *     	expr1.type = expr2.type.parenthesis(argumentsTypes, expr1)
-     * @param i
-     * @param param
-     * @return
      */
     @Override
     public Void visit(Invocation i, Type param){

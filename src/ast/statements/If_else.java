@@ -16,7 +16,13 @@ public class If_else extends AbstractLocatable implements Statement{
     public If_else(List<Statement> if_body, List<Statement> else_body,Expression condition, int line, int column) {
         super(line, column);
         this.if_body = new ArrayList<>(if_body);
-        this.else_body = new ArrayList<>(else_body);
+
+        // Esto es por si no me llega un else (es opcional)
+        if(else_body != null)
+            this.else_body = new ArrayList<>(else_body);
+        else
+            this.else_body = new ArrayList<>();
+
         this.condition = condition;
     }
 

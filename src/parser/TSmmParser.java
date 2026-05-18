@@ -716,7 +716,7 @@ public class TSmmParser extends Parser {
 					}
 					break;
 				}
-				_localctx.ast.add(new If_else(_localctx.elseBody, ((StatementContext)_localctx).b1.ast, ((StatementContext)_localctx).e1.ast, ((StatementContext)_localctx).e1.ast.getLine(), ((StatementContext)_localctx).e1.ast.getColumn()));
+				_localctx.ast.add(new If_else(((StatementContext)_localctx).b1.ast, _localctx.elseBody, ((StatementContext)_localctx).e1.ast, ((StatementContext)_localctx).e1.ast.getLine(), ((StatementContext)_localctx).e1.ast.getColumn()));
 				}
 				break;
 			case 6:

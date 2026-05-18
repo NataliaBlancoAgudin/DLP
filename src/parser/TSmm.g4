@@ -161,7 +161,7 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()] locals[List
                 {$ast.add(new While($b1.ast, $e1.ast, $e1.ast.getLine(), $e1.ast.getColumn()));}
           // If-else
           | 'if' '(' e1=expression ')' b1=body ('else' b2=body {$elseBody = $b2.ast;} )?
-                {$ast.add(new If_else($elseBody, $b1.ast, $e1.ast, $e1.ast.getLine(), $e1.ast.getColumn()));}
+                {$ast.add(new If_else($b1.ast, $elseBody, $e1.ast, $e1.ast.getLine(), $e1.ast.getColumn()));}
           // Invocation como statement
           | ID '(' (e1=expression{$args.add($e1.ast);} (',' e2=expression {$args.add($e2.ast);})*)? ')' ';'
                 {Variable name = new Variable($ID.text, $ID.getLine(), $ID.getCharPositionInLine()+1);

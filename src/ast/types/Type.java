@@ -13,14 +13,14 @@ public interface Type extends ASTNode {
     // Numero de bytes que tienen los tipos
     int numberOfBytes();
 
-    // Comprueba que puede ser usado en condiciones (if/while)
-    void mustBeLogical(Locatable l);
-
     // Para las operaciones binarias (+|-|*|/|%)
     Type arithmetic(Type other, Locatable l);
 
     // Para el UnaryMinus. Solo pueden los NumberType y los IntType
     Type arithmetic(Locatable l);
+
+    // Comprueba que puede ser usado en condiciones (if/while). Solo pueden los InType y CharType
+    void mustBeLogical(Locatable l);
 
     // Para las operaciones logicas binarias (&& | ||). Solo pueden ser los IntType y CharType
     Type logic(Type other, Locatable l);
@@ -28,23 +28,24 @@ public interface Type extends ASTNode {
     // Para ele UnaryNot. Solo pueden los IntType y CharType
     Type logic(Locatable l);
 
-    // Para las comparaciones >, >=, <, <=, ==, !=
+    // Para las comparaciones >, >=, <, <=, ==, !=. Solo pueden los IntType, CharType y NumberType
     Type comparison(Type other, Locatable c);
 
-    // Para la invocacion a funciones
+    // Para la invocacion a funciones. Solo pueden los FuncType
     Type parenthesis(List<Type> argumentsTypes, Locatable i);
 
-    // Para ver si los tipos son promocionables
+    // Para ver si los tipos son promocionables. La promoción implícita es Int -> Char; Char -> Int, Int -> Number y Char -> Number (este último PREGUNTAR)
     void mustPromotesTo(Type other, Locatable l);
 
-    // Para el acceso a array
+    // Para el acceso a array. Solo pueden los ArrayType
     Type squareBrackets(Type other, Locatable a);
 
-    // Para el cast
+    // Para el cast. Solo pueden los IntType, NumberType y CharType
     Type canBeCastTo(Type other, Locatable c);
 
-    // Para el acceso a campos
+    // Para el acceso a campos. Solo pueden los RecordType
     Type dot(String name, Locatable f);
 
+    // Comprueba si es un tipo primitivo (IntType, CharType o NumberType)
     void mustBeBuiltIn(Locatable i);
 }

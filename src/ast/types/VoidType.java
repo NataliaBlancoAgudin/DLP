@@ -1,6 +1,5 @@
 package ast.types;
 
-import ast.Locatable;
 import visitor.Visitor;
 
 public class VoidType extends AbstractType {
@@ -16,16 +15,6 @@ public class VoidType extends AbstractType {
     @Override
     public <RT, PT> RT accept(Visitor<RT, PT> v, PT param){
         return v.visit(this, param);
-    }
-
-    // METODOS DEL TYPE -------------------------------------------------------------------------------
-
-    @Override
-    public void mustPromotesTo(Type t, Locatable l) {
-        if(this == t || t == NumberType.getInstance()){
-            return;
-        }
-        super.mustPromotesTo(t, l);
     }
 
     @Override
