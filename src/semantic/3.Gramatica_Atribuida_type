@@ -13,7 +13,7 @@ G:
     (11) Invocation:            expr1       -> expr2 expr3*
     (12) ArrayAccess:           expr1       -> expr2 expr3
     (13) Cast:                  expr1       -> type expr2
-    (14) FieldAccess:           expr1       -> name expr2
+    (14) FieldAccess:           expr1       -> ID expr2
     (15) If_Else:               stmt1       -> stmt2* stmt3* expr
     (16) Input:                 stmt        -> expr
     (17) Log:                   stmt        -> expr
@@ -21,7 +21,7 @@ G:
     (19) Assigment:             stmt        -> expr1 expr2
     (20) FuncDefinition:        def         -> stmt*
 
-A: {expr.type pertenece Type}
+A: {expr.type : Type}
 
 R:
     //IntLiteral: expr -> INT_CONSTANT

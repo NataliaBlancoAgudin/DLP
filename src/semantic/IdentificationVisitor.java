@@ -14,7 +14,7 @@ public class IdentificationVisitor extends AbstractVisitor<Void, Void> {
     @Override
     public Void visit(FunctionDefinition f, Void param) {
         if(!symbolTable.insert(f)){
-            new ErrorType("Ya existe una función con el nombre " + f.getName() + " en el ambito", f);
+            new ErrorType("Ya existe una función con el nombre " + f.getName() + " en el mismo ambito", f);
         }
         symbolTable.set();
         super.visit(f, param);
@@ -25,7 +25,7 @@ public class IdentificationVisitor extends AbstractVisitor<Void, Void> {
     @Override
     public Void visit(VarDefinition v, Void param) {
         if(!symbolTable.insert(v)){
-            new ErrorType("Ya existe una variable con el nombre " + v.getName() + " en el ambito", v);
+            new ErrorType("Ya existe una variable con el nombre " + v.getName() + " en el mismo ambito", v);
         }
         super.visit(v, param);
         return null;
@@ -39,7 +39,7 @@ public class IdentificationVisitor extends AbstractVisitor<Void, Void> {
             v.setDefinition(def);
         }
         else{
-            ErrorType type = new ErrorType("No existe una variable con el nombre " + v.getName(), v);
+            ErrorType type = new ErrorType("No existe una variable con el nombre '" + v.getName()+"'.", v);
             v.setDefinition(new VarDefinition("", type, 0,0));
         }
         super.visit(v, param);

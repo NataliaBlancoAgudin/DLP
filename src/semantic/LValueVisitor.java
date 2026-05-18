@@ -57,6 +57,13 @@ public class LValueVisitor extends AbstractVisitor<Void, Void> {
     }
 
     @Override
+    public Void visit(Invocation i, Void param) {
+        super.visit(i, param);
+        i.setLvalue(false);
+        return null;
+    }
+
+    @Override
     public Void visit(LogicOperation l, Void param) {
         super.visit(l, param);
         l.setLvalue(false);
@@ -105,7 +112,7 @@ public class LValueVisitor extends AbstractVisitor<Void, Void> {
     public Void visit(Input i, Void param) {
         super.visit(i, param);
         if(!i.getTarget().getLvalue()){
-            new ErrorType("La expresión debe ser direccionable (lvalue)", i.getTarget());
+            new ErrorType("La expresión del input debe ser direccionable (lvalue)", i.getTarget());
         }
         return null;
     }
