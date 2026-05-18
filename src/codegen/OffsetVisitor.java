@@ -13,6 +13,17 @@ public class OffsetVisitor extends AbstractVisitor<Void, Boolean> {
     private int bytesGlobalSum = 0;
     private int bytesLocalSum = 0;  // Es para las locales
 
+    /**
+     * // VarDefinition:  vardefiniton    ->   type ID
+     *     (2) if(vardefinition.scope == 0){
+     *             vardefintion.offset = bytesGlobalSum;
+     *             bytesGlobalSum += vardefinition.type.numberOfBytes;
+     *         }
+     *         else if(isLocal){
+     *             bytesLocalSum += vardefinition.type.numberOfBytes;
+     *             vardefinition.offset = - bytesLocalSum;
+     *         }
+     */
     @Override
     public Void visit(VarDefinition v, Boolean isLocal){
         super.visit(v, isLocal);  // Hay que visitar a los hijos porque si tenemos un VarDefinition de RecordType
@@ -29,6 +40,15 @@ public class OffsetVisitor extends AbstractVisitor<Void, Boolean> {
         return null;
     }
 
+    /**
+     * // FuncDefintion:  funcdefinition  ->   type ID varDefinition* statement*
+     *     (1) int bytesLocalSum = 0;
+     *         for(Statement st: statement*){
+     *             bytesLocalSum += st.type.numberOfBytes;
+     *             st.offset = bytesLocalSum;
+     *         }
+     *         funcdefinition.bytesLocalSum = bytesLocalSum;
+     */
     @Override
     public Void visit(FunctionDefinition f, Boolean isLocal){
         bytesLocalSum = 0;  // estamos dentro de una nueva funcion (reesetamos)
@@ -45,6 +65,15 @@ public class OffsetVisitor extends AbstractVisitor<Void, Boolean> {
         return null;
     }
 
+    /**
+     * // FuncType:       type_1          ->   type_2 vardefinition*
+     *     (3) int bytesParam = 4;
+     *         for(int i=statement*.size()-1; i>0; i--){
+     *             VarDefinition v = statement*.get(i);
+     *             v.offset = bytesParam;
+     *             bytesParam += v.type.numberOfBytes;
+     *         }
+     */
     @Override
     public Void visit(FuncType f, Boolean isLocal){
         int bytesParam = 4;
@@ -61,6 +90,14 @@ public class OffsetVisitor extends AbstractVisitor<Void, Boolean> {
         return null;
     }
 
+    /**
+     * // RecordType:     type_2          ->   recordField*
+     *     (4) int contador = 0;
+     *         for(RecordField record:recordField*){
+     *             record.offset = contador;
+     *             contador += record.targetType.numberOfBytes;
+     *         }
+     */
     @Override
     public Void visit(RecordType r, Boolean isLocal){
         int contador = 0;

@@ -7,6 +7,7 @@ G:
 A: { VarDefinition.offset pertenece a IntLiteral }
 
 R:
+    // FuncDefintion:  funcdefinition  ->   type ID varDefinition* statement*
     (1) int bytesLocalSum = 0;
         for(Statement st: statement*){
             bytesLocalSum += st.type.numberOfBytes;
@@ -14,6 +15,7 @@ R:
         }
         funcdefinition.bytesLocalSum = bytesLocalSum;
 
+    // VarDefinition:  vardefiniton    ->   type ID
     (2) if(vardefinition.scope == 0){
             vardefintion.offset = bytesGlobalSum;
             bytesGlobalSum += vardefinition.type.numberOfBytes;
@@ -23,6 +25,7 @@ R:
             vardefinition.offset = - bytesLocalSum;
         }
 
+    // FuncType:       type_1          ->   type_2 vardefinition*
     (3) int bytesParam = 4;
         for(int i=statement*.size()-1; i>0; i--){
             VarDefinition v = statement*.get(i);
@@ -30,6 +33,7 @@ R:
             bytesParam += v.type.numberOfBytes;
         }
 
+    // RecordType:     type_2          ->   recordField*
     (4) int contador = 0;
         for(RecordField record:recordField*){
             record.offset = contador;
