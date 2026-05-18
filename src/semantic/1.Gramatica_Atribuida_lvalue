@@ -24,49 +24,49 @@ A = {exp.lvalue : boolean}
 
 R:
     // ArithmeticOperation:    expr1 -> expr2 (+|-|*|/|%) expr3
-    expr1.lvalue = false
+    (1) expr1.lvalue = false
 
     // ArrayAccess:            expr1 -> expr2 expr3
-    expr1.lvalue = true
+    (2) expr1.lvalue = true
 
     // Cast:                   expr1 -> type expr2
-    expr1.lvalue = false
+    (3) expr1.lvalue = false
 
     // CharLiteral:            expr  -> CHAR_CONSTANT
-    expr.lvalue = false
+    (4) expr.lvalue = false
 
     // ComparationOp:          expr1  -> expr2 (>= | <= | > | < | == | !=) expr3
-    expr1.lvalue = false
+    (5) expr1.lvalue = false
 
     // FieldAccess:            expr1       -> expr2 ID
-    expr1.lvalue = true
+    (6) expr1.lvalue = true
 
     // IntLiteral:             expr        -> INT_CONSTANT
-    expr.lvalue = false
+    (7) expr.lvalue = false
 
     // Invocation:             expr1       -> expr2 expr3*
-    expr.lvalue = false
+    (8) expr.lvalue = false
 
     // LogicOperation:         expr1       -> expr2 (&& | ||) expr3
-    expr1.lvalue = false
+    (9) expr1.lvalue = false
 
     // RealLiteral:            expr        -> REAL_CONSTANT
-    expr1.lvalue = false
+    (10) expr1.lvalue = false
 
     // UnaryMinus:             expr1       -> expr2
-    expr1.lvalue = false
+    (11) expr1.lvalue = false
 
     // UnaryNot:               expr1       -> expr2
-    expr1.lvalue = false
+    (12) expr1.lvalue = false
 
     // Variable:               expr        -> ID
-    expr.lvalue = true
+    (13) expr.lvalue = true
 
 
     // Assigment:              stmt        -> expr1 expr2
-    if(!expr1.lvalue)
+    (14) if(!expr1.lvalue)
         ErrorType("El lado izquierdo de la asignación no es direccionable (lvalue))
 
     // Input:                  stmt        -> expr
-    if(!expr.lvalue)
+    (15) if(!expr.lvalue)
         ErrorType("La expresión del input debe ser direccionable (lvalue))
