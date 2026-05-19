@@ -184,11 +184,13 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
     /**
      * value[[UnaryNot: expr1 -> expr2]]()=
      *         value[[expr2]]()
+     *         cg.convertTo(expr2.type, IntType)
      *         <not>
      */
     @Override
     public Void visit(UnaryNot u, Void param){
         u.getOperand().accept(this, null);
+        getCodeGenerator().convertTo(u.getOperand().getType(), u.getType());
         getCodeGenerator().not();
         return null;
     }

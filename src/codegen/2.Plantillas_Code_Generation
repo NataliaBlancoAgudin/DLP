@@ -222,6 +222,7 @@ Equivalen a lo que tenemos en los visitors "ExecuteCGVisitor", "ValueCGVisitor" 
 13. UnaryNot                                                                            ✅
     value[[UnaryNot: expr1 -> expr2]]()=
         value[[expr2]]()
+        cg.convertTo(expr2.type, IntType)
         <not>
 
 14. Invocation (nuevo)

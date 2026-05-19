@@ -77,7 +77,7 @@ public class CharType extends AbstractType {
     // Solo promociona implicitamente a su mismo tipo y a Int ('a'-> 93)
     @Override
     public void mustPromotesTo(Type t, Locatable l){
-        if(this == t || t == IntType.getInstance()){
+        if(this == t || t == IntType.getInstance() || t == NumberType.getInstance()){
             return;
         }
         super.mustPromotesTo(t, l);
